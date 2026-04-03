@@ -132,28 +132,53 @@ export default function Home() {
               </Link>
             ))}
 
-            {/* Coming soon categories — dimmed */}
-            {comingSoonCategories.map((category) => (
-              <div
-                key={category.id}
-                className="relative aspect-[3/4] rounded-xl overflow-hidden opacity-60 pointer-events-none"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#C8A27C]/30 to-[#967259]/30" />
-                <div className="absolute inset-0 bg-secondary" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                {/* Coming soon badge */}
-                <div className="absolute top-3 left-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider bg-foreground/10 text-foreground backdrop-blur-sm border border-foreground/20 px-2.5 py-1 rounded-full">
-                    Bientôt disponible
-                  </span>
+            {/* Coming soon categories — visuellement riches */}
+            {comingSoonCategories.map((category) => {
+              const styles: Record<string, { gradient: string; icon: string }> = {
+                colorees: {
+                  gradient: "linear-gradient(135deg, #D4A574 0%, #B8736A 40%, #8B5E56 100%)",
+                  icon: "✦",
+                },
+                "demi-perruques": {
+                  gradient: "linear-gradient(135deg, #C8A27C 0%, #967259 40%, #7A5C40 100%)",
+                  icon: "◐",
+                },
+                accessoires: {
+                  gradient: "linear-gradient(135deg, #E8D5C4 0%, #C8A27C 40%, #A67B5B 100%)",
+                  icon: "♢",
+                },
+              };
+              const s = styles[category.id] ?? styles.accessoires;
+              return (
+                <div
+                  key={category.id}
+                  className="relative aspect-[3/4] rounded-xl overflow-hidden group cursor-default"
+                  style={{ background: s.gradient }}
+                >
+                  {/* Subtle pattern overlay */}
+                  <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 40%, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+                  {/* Large decorative icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-[80px] sm:text-[100px] text-white/15 select-none">{s.icon}</span>
+                  </div>
+                  {/* Dark gradient bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  {/* Coming soon badge */}
+                  <div className="absolute top-3 left-3 right-3 flex justify-center">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.15em] bg-white/20 text-white backdrop-blur-md border border-white/30 px-3 py-1.5 rounded-full">
+                      Bientot disponible
+                    </span>
+                  </div>
+                  {/* Category name */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="font-heading text-white font-semibold text-sm sm:text-base leading-tight">
+                      {category.name}
+                    </p>
+                    <p className="text-white/50 text-xs mt-1">{category.description}</p>
+                  </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="font-heading text-white font-semibold text-sm sm:text-base leading-tight">
-                    {category.name}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

@@ -190,27 +190,41 @@ function BoutiqueContent() {
       {comingSoonCategories.length > 0 && (
         <div className="mt-20">
           <h2 className="font-heading text-2xl mb-6 text-center">
-            Bientôt disponible
+            Bientot disponible
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {comingSoonCategories.map((cat) => (
-              <div
-                key={cat.id}
-                className="relative rounded-xl overflow-hidden opacity-70 cursor-not-allowed"
-              >
-                <div className="aspect-[4/3] w-full bg-gradient-to-br from-secondary to-secondary/40 flex flex-col items-center justify-center gap-3 p-6">
-                  <p className="font-heading text-xl text-center text-foreground">
-                    {cat.name}
-                  </p>
-                  <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-primary/20 text-primary">
-                    Coming soon
-                  </span>
-                  <p className="text-xs text-muted-foreground text-center">
-                    {cat.description}
-                  </p>
+            {comingSoonCategories.map((cat) => {
+              const styles: Record<string, { gradient: string; icon: string }> = {
+                colorees: { gradient: "linear-gradient(135deg, #D4A574 0%, #B8736A 40%, #8B5E56 100%)", icon: "✦" },
+                "demi-perruques": { gradient: "linear-gradient(135deg, #C8A27C 0%, #967259 40%, #7A5C40 100%)", icon: "◐" },
+                accessoires: { gradient: "linear-gradient(135deg, #E8D5C4 0%, #C8A27C 40%, #A67B5B 100%)", icon: "♢" },
+              };
+              const s = styles[cat.id] ?? styles.accessoires;
+              return (
+                <div
+                  key={cat.id}
+                  className="relative rounded-xl overflow-hidden"
+                  style={{ background: s.gradient }}
+                >
+                  <div className="aspect-[4/3] w-full relative">
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 40%, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-[70px] text-white/15 select-none">{s.icon}</span>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                    <div className="absolute top-3 inset-x-3 flex justify-center">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.15em] bg-white/20 text-white backdrop-blur-md border border-white/30 px-3 py-1.5 rounded-full">
+                        Bientot disponible
+                      </span>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <p className="font-heading text-white font-semibold text-lg">{cat.name}</p>
+                      <p className="text-white/60 text-xs mt-1">{cat.description}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
