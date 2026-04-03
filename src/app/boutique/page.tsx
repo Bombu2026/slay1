@@ -78,19 +78,22 @@ export default function BoutiquePage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="mb-10 text-center">
-        <h1 className="font-heading text-4xl text-gradient mb-3">
+        <h1 className="font-heading text-4xl text-gradient mb-2">
           La Collection
         </h1>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-lg mb-1">
           Trouve la perruque parfaite pour toi
+        </p>
+        <p className="text-sm text-muted-foreground">
+          {filtered.length} perruque{filtered.length > 1 ? "s" : ""}
         </p>
       </div>
 
       {/* Filters */}
-      <div className="mb-8 space-y-4">
+      <div className="sticky top-16 z-40 bg-background/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-border mb-8 space-y-4">
         {/* Texture */}
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-foreground shrink-0 w-16">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
             Texture
           </span>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -108,7 +111,7 @@ export default function BoutiquePage() {
 
         {/* Length */}
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-foreground shrink-0 w-16">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
             Longueur
           </span>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -126,7 +129,7 @@ export default function BoutiquePage() {
 
         {/* Type */}
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-foreground shrink-0 w-16">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
             Type
           </span>
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -142,11 +145,6 @@ export default function BoutiquePage() {
           </div>
         </div>
       </div>
-
-      {/* Count */}
-      <p className="text-sm text-muted-foreground mb-6">
-        {filtered.length} perruque{filtered.length > 1 ? "s" : ""}
-      </p>
 
       {/* Grid */}
       {filtered.length === 0 ? (
@@ -178,22 +176,26 @@ export default function BoutiquePage() {
               className="group block hover:-translate-y-1 hover:shadow-lg transition-all duration-300 rounded-xl"
             >
               {/* Image placeholder with gradient */}
-              <div className="relative">
+              <div className="relative overflow-hidden rounded-t-xl">
                 {product.image ? (
-                  <div className="aspect-[3/4] w-full rounded-xl relative overflow-hidden">
+                  <div className="aspect-[3/4] w-full relative overflow-hidden">
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
                   </div>
                 ) : (
-                  <div
-                    className="aspect-[3/4] rounded-xl w-full"
-                    style={{ background: product.gradient }}
-                  />
+                  <div className="relative aspect-[3/4] rounded-t-xl overflow-hidden">
+                    <div
+                      className="w-full h-full transition-transform duration-300 group-hover:scale-105"
+                      style={{ background: product.gradient }}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
+                  </div>
                 )}
                 {/* Badge */}
                 {product.badge && (

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -38,15 +39,17 @@ export default function AProposPage() {
       <section className="py-16 sm:py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-            {/* Photo placeholder */}
+            {/* Founder photo */}
             <div className="w-full lg:w-2/5 flex-shrink-0">
-              <div
-                className="w-full aspect-[4/5] rounded-2xl"
-                style={{
-                  background:
-                    "linear-gradient(to bottom right, #F5E6D3, #C8A27C)",
-                }}
-              />
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/confidence.jpg"
+                  alt="Elnacia, fondatrice de Slay"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             </div>
 
             {/* Text */}
@@ -90,13 +93,11 @@ export default function AProposPage() {
             {values.map((value, index) => (
               <div
                 key={value.title}
-                className="bg-card rounded-2xl p-8 border border-border"
+                className="bg-card rounded-2xl p-8 border border-border transition-transform duration-300 hover:-translate-y-1"
               >
-                <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center mb-5">
-                  <span className="text-primary font-heading font-bold text-lg">
-                    {index + 1}
-                  </span>
-                </div>
+                <span className="font-heading text-4xl text-accent/30 block mb-4">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <h3 className="font-heading text-xl font-bold text-primary mb-3">
                   {value.title}
                 </h3>
@@ -115,7 +116,7 @@ export default function AProposPage() {
           <p className="text-sm uppercase tracking-[0.2em] text-primary-foreground/60 font-medium mb-4">
             Notre mission
           </p>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-6 max-w-2xl mx-auto leading-snug">
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold mb-6 max-w-2xl mx-auto leading-snug">
             Démocratiser l&apos;accès aux perruques de qualité et permettre à
             chaque femme d&apos;exprimer sa beauté sans limites.
           </h2>

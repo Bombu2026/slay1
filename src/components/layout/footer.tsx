@@ -115,6 +115,33 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Newsletter */}
+        <div className="mt-10 pt-8 border-t border-primary-foreground/10">
+          <h4 className="text-sm font-semibold uppercase tracking-wider mb-3">Newsletter</h4>
+          <p className="text-sm text-primary-foreground/60 mb-4 max-w-sm">Reçois nos offres exclusives et nos nouveautés en avant-première.</p>
+          <form className="flex gap-2 max-w-sm" action="#">
+            <input type="email" placeholder="Ton email" className="flex-1 bg-primary-foreground/10 border border-primary-foreground/20 rounded-lg px-3 py-2 text-sm text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:border-primary-foreground/40" />
+            <button type="submit" className="bg-accent text-accent-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent/80 transition-colors">OK</button>
+          </form>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="mt-10 flex flex-wrap items-center gap-3">
+          <span className="text-xs text-primary-foreground/40 mr-2">Paiement sécurisé</span>
+          <div className="bg-primary-foreground/10 rounded px-2 py-1">
+            <span className="text-xs font-bold text-primary-foreground/70 tracking-wider">VISA</span>
+          </div>
+          <div className="bg-primary-foreground/10 rounded px-2 py-1">
+            <span className="text-xs font-bold text-primary-foreground/70 tracking-wider">MC</span>
+          </div>
+          <div className="bg-primary-foreground/10 rounded px-2 py-1">
+            <span className="text-xs font-bold text-primary-foreground/70 tracking-wider">PayPal</span>
+          </div>
+          <div className="bg-primary-foreground/10 rounded px-2 py-1">
+            <span className="text-xs font-bold text-primary-foreground/70 tracking-wider">Apple Pay</span>
+          </div>
+        </div>
+
         <div className="mt-12 pt-8 border-t border-primary-foreground/10 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-primary-foreground/50">
             &copy; {new Date().getFullYear()} Slay by Elnacia. Tous droits

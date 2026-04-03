@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -105,9 +106,9 @@ export default function GuidePage() {
             {installSteps.map((step) => (
               <div
                 key={step.number}
-                className="bg-card rounded-xl p-6 border border-border flex gap-5 items-start"
+                className="bg-card rounded-xl p-6 border border-border flex gap-5 items-start transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
               >
-                <span className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex items-center justify-center font-bold shrink-0">
+                <span className="bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg shrink-0">
                   {step.number}
                 </span>
                 <div className="space-y-1">
@@ -118,6 +119,17 @@ export default function GuidePage() {
             ))}
           </div>
         </section>
+
+        {/* Visual break */}
+        <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden my-8">
+          <Image
+            src="/images/straight-dark.jpg"
+            alt="Coiffage en salon"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 800px"
+          />
+        </div>
 
         {/* How to Maintain */}
         <section className="space-y-8">
@@ -135,6 +147,17 @@ export default function GuidePage() {
           </div>
         </section>
 
+        {/* Visual break */}
+        <div className="relative h-48 sm:h-64 rounded-2xl overflow-hidden my-8">
+          <Image
+            src="/images/kinky-natural.jpg"
+            alt="Produits d'entretien capillaire"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 800px"
+          />
+        </div>
+
         {/* FAQ */}
         <section className="space-y-8">
           <h2 className="font-heading text-2xl">Questions fréquentes</h2>
@@ -142,7 +165,7 @@ export default function GuidePage() {
             {faqs.map((faq) => (
               <div
                 key={faq.question}
-                className="bg-card rounded-xl p-6 border border-border space-y-2"
+                className="bg-card rounded-xl p-6 border border-border space-y-2 border-l-2 border-l-accent/30 pl-6"
               >
                 <p className="font-semibold">{faq.question}</p>
                 <p className="text-muted-foreground">{faq.answer}</p>

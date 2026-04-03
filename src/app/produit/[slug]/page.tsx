@@ -77,19 +77,19 @@ export default async function ProductPage({
       <div className="flex flex-col lg:flex-row gap-12 mb-20">
         {/* LEFT — gradient visual */}
         <div className="lg:w-1/2">
-          <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg">
+          <div className="group relative aspect-square rounded-2xl overflow-hidden shadow-lg">
             {product.image ? (
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />
             ) : (
               <div
-                className="w-full h-full"
+                className="w-full h-full transition-transform duration-500 group-hover:scale-105"
                 style={{ background: product.gradient }}
               />
             )}
@@ -143,14 +143,14 @@ export default async function ProductPage({
           </p>
 
           {/* Specs grid */}
-          <div className="grid grid-cols-2 gap-4 bg-muted/40 rounded-xl p-5">
+          <div className="grid grid-cols-2 gap-3">
             {[
               { label: "Longueur", value: product.lengthCm },
               { label: "Texture", value: product.texture },
               { label: "Type", value: product.type },
               { label: "Densité", value: product.density },
             ].map(({ label, value }) => (
-              <div key={label}>
+              <div key={label} className="bg-secondary/50 rounded-lg p-3">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground font-medium mb-0.5">
                   {label}
                 </p>
@@ -171,6 +171,22 @@ export default async function ProductPage({
 
           {/* Add to cart */}
           <AddToCartButton product={product} />
+
+          {/* Trust signals */}
+          <div className="flex items-center justify-between py-4 mt-4 border-t border-border text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+              Paiement sécurisé
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5v14"/><circle cx="12" cy="12" r="10"/></svg>
+              Livraison 2-5 jours
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+              Retours 14 jours
+            </span>
+          </div>
 
           {/* Free shipping note */}
           <p className="text-center text-xs text-muted-foreground">
@@ -201,7 +217,7 @@ export default async function ProductPage({
               >
                 <StarRating rating={review.rating} />
                 <p className="text-foreground leading-relaxed flex-1 text-sm">
-                  &ldquo;{review.text}&rdquo;
+                  <span className="font-heading text-4xl text-accent/20 leading-none align-bottom mr-1">&ldquo;</span>{review.text}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 pt-3 border-t border-border">
                   <div className="w-8 h-8 rounded-full bg-accent/30 flex items-center justify-center text-primary font-semibold text-sm shrink-0">

@@ -21,8 +21,8 @@ function StarRating({ rating }: { rating: number }) {
 export default function Home() {
   return (
     <>
-      {/* Hero — Image */}
-      <div className="relative min-h-[60vh] sm:min-h-[70vh] w-full">
+      {/* Hero — image plein écran avec overlay et texte en bas */}
+      <section className="relative min-h-[85vh] flex items-end animate-fade-in">
         <Image
           src="/images/hero.png"
           alt="Slay by Elnacia — groupe de femmes"
@@ -31,32 +31,58 @@ export default function Home() {
           priority
           sizes="100vw"
         />
-      </div>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F5E6D3] via-[#F5E6D3]/60 to-transparent" />
 
-      {/* Hero — Gradient + texte */}
-      <section
-        className="py-16 sm:py-24"
-        style={{ background: "linear-gradient(135deg, #F5E6D3 0%, #C8A27C 100%)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm uppercase tracking-[0.25em] text-primary/70 font-medium mb-6">
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
+          <p className="animate-slide-up animate-delay-100 text-sm uppercase tracking-[0.25em] text-primary/70 font-medium mb-6">
             Slay by Elnacia
           </p>
-          <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
+          <h1 className="animate-slide-up animate-delay-200 font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
             Change autant
             <br />
             que tu veux
           </h1>
-          <p className="text-lg sm:text-xl text-primary/80 max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="animate-slide-up animate-delay-300 text-lg sm:text-xl text-primary/80 max-w-xl mb-10 leading-relaxed">
             Perruques premium. Style instantané. Confiance absolue.
           </p>
-          <Button
-            render={<Link href="/boutique" />}
-            size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-10 py-6 text-base font-medium tracking-wide shadow-lg"
-          >
-            Découvrir la collection
-          </Button>
+          <div className="animate-slide-up animate-delay-400">
+            <Button
+              render={<Link href="/boutique" />}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-10 py-6 text-base font-medium tracking-wide shadow-lg"
+            >
+              Découvrir la collection
+            </Button>
+
+            {/* Trust badges */}
+            <div className="flex flex-wrap items-center gap-5 mt-6">
+              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="1" y="3" width="15" height="13" rx="2" />
+                  <path d="M16 8h4l3 5v3h-7V8z" />
+                  <circle cx="5.5" cy="18.5" r="2.5" />
+                  <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                Livraison 2-5 jours
+              </span>
+              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                Paiement sécurisé
+              </span>
+              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <polyline points="1 4 1 10 7 10" />
+                  <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
+                </svg>
+                Retours 14 jours
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -76,7 +102,7 @@ export default function Home() {
             {bestSellers.map((product, index) => (
               <div
                 key={product.id}
-                className={`flex flex-col md:flex-row items-stretch gap-0 ${
+                className={`animate-slide-up flex flex-col md:flex-row items-stretch gap-0 ${
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
                 }`}
               >
@@ -107,7 +133,7 @@ export default function Home() {
                   }`}
                 >
                   <div
-                    className="w-full rounded-2xl p-8 sm:p-10 shadow-xl"
+                    className="w-full rounded-2xl p-8 sm:p-10 shadow-2xl"
                     style={{ background: product.gradient }}
                   >
                     {product.badge && (
@@ -224,8 +250,11 @@ export default function Home() {
             {featuredReviews.map((review) => (
               <div
                 key={review.id}
-                className="bg-card rounded-2xl p-6 border border-border flex flex-col gap-4"
+                className="bg-card rounded-2xl p-8 border border-border flex flex-col gap-4"
               >
+                <div className="font-heading text-6xl leading-none text-accent/30 select-none">
+                  &ldquo;
+                </div>
                 <StarRating rating={review.rating} />
                 <p className="text-foreground leading-relaxed flex-1">
                   &ldquo;{review.text}&rdquo;
@@ -250,12 +279,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section
-        className="py-16 sm:py-24"
-        style={{ background: "linear-gradient(135deg, #F5E6D3 0%, #E8C9A0 100%)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Final CTA — bookend visuel avec hero image */}
+      <section className="relative overflow-hidden py-16 sm:py-24">
+        <Image
+          src="/images/hero.png"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F5E6D3]/95 to-[#C8A27C]/90" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-heading text-4xl sm:text-5xl font-bold text-primary mb-4">
             Prête à slay ?
           </h2>
