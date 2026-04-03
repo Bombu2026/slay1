@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 
@@ -14,12 +15,14 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-heading text-2xl font-bold tracking-tight text-gradient">
-              SLAY
-            </span>
-            <span className="hidden sm:inline text-xs text-muted-foreground font-light tracking-widest uppercase">
-              by Elnacia
-            </span>
+            <Image
+              src="/images/logo.png"
+              alt="Slay by Elnacia"
+              width={120}
+              height={120}
+              className="h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

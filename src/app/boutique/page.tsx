@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { products, textures, lengths, types } from "@/lib/data";
@@ -178,10 +179,22 @@ export default function BoutiquePage() {
             >
               {/* Image placeholder with gradient */}
               <div className="relative">
-                <div
-                  className="aspect-[3/4] rounded-xl w-full"
-                  style={{ background: product.gradient }}
-                />
+                {product.image ? (
+                  <div className="aspect-[3/4] w-full rounded-xl relative overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="aspect-[3/4] rounded-xl w-full"
+                    style={{ background: product.gradient }}
+                  />
+                )}
                 {/* Badge */}
                 {product.badge && (
                   <div className="absolute top-3 left-3">

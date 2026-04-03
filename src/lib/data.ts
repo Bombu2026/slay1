@@ -7,6 +7,7 @@ export type Product = {
   price: number;
   originalPrice?: number;
   gradient: string;
+  image?: string;
   category: string;
   length: string;
   lengthCm: string;
@@ -40,6 +41,7 @@ export const products: Product[] = [
       "Notre Silk Straight est LA perruque incontournable. Cheveux 100% vierges, lace front invisible pour une ligne frontale ultra-naturelle. Le lissage soyeux tient même sous la pluie. Facile à coiffer, facile à vivre. Tu la mets, tu sors, tu slay.",
     price: 159,
     gradient: "linear-gradient(135deg, #F5E6D3 0%, #C8A27C 50%, #B08968 100%)",
+    image: "/images/silk-straight.jpg",
     category: "Lace Front",
     length: "Long",
     lengthCm: "60cm (24\")",
@@ -66,6 +68,7 @@ export const products: Product[] = [
       "Le Body Wave Glueless, c'est le choix n°1 de nos clientes. Des ondulations naturelles qui bougent avec toi, une installation sans colle en 2 minutes chrono. Les clips intégrés tiennent tout en place. Parfaite pour les débutantes comme pour les expertes.",
     price: 129,
     gradient: "linear-gradient(135deg, #E8D5C4 0%, #B08968 50%, #967259 100%)",
+    image: "/images/body-wave.jpeg",
     category: "Glueless",
     length: "Moyen",
     lengthCm: "55cm (22\")",
@@ -148,6 +151,7 @@ export const products: Product[] = [
       "Longueur maximale, élégance maximale. La Loose Wave Longue descend jusqu'à la taille avec des ondulations lâches et fluides qui crient le luxe. Densité 200% pour un volume spectaculaire. Pour les femmes qui n'ont pas peur d'en faire trop.",
     price: 199,
     gradient: "linear-gradient(135deg, #E0D0C0 0%, #A67B5B 50%, #8B6F47 100%)",
+    image: "/images/loose-wave.jpg",
     category: "Lace Front",
     length: "Long",
     lengthCm: "70cm (28\")",
@@ -200,6 +204,7 @@ export const products: Product[] = [
       "Tu l'as vue partout sur TikTok, maintenant elle est à toi. La Water Wave Premium donne cet effet \"sortie de plage\" irrésistible. HD Lace invisible, mouvement naturel, et ce petit côté wild qui fait tout le charme. La plus demandée du moment.",
     price: 169,
     gradient: "linear-gradient(135deg, #DED0C0 0%, #C8A27C 50%, #A67B5B 100%)",
+    image: "/images/water-wave.jpg",
     category: "HD Lace",
     length: "Long",
     lengthCm: "65cm (26\")",

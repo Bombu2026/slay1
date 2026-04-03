@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { products, reviews } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -20,12 +21,24 @@ function StarRating({ rating }: { rating: number }) {
 export default function Home() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — Image */}
+      <div className="relative min-h-[60vh] sm:min-h-[70vh] w-full">
+        <Image
+          src="/images/hero.png"
+          alt="Slay by Elnacia — groupe de femmes"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+      </div>
+
+      {/* Hero — Gradient + texte */}
       <section
-        className="relative flex items-center justify-center min-h-[90vh]"
+        className="py-16 sm:py-24"
         style={{ background: "linear-gradient(135deg, #F5E6D3 0%, #C8A27C 100%)" }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm uppercase tracking-[0.25em] text-primary/70 font-medium mb-6">
             Slay by Elnacia
           </p>
@@ -47,10 +60,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Best Sellers */}
+      {/* Best Sellers — layout éditorial */}
       <section className="py-16 sm:py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-16">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium mb-3">
               Collection
             </p>
@@ -58,61 +71,92 @@ export default function Home() {
               Les plus demandées
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bestSellers.map((product) => (
-              <Link
+
+          <div className="flex flex-col gap-12">
+            {bestSellers.map((product, index) => (
+              <div
                 key={product.id}
-                href={`/produit/${product.slug}`}
-                className="group block transition-all duration-300 hover:-translate-y-1 hover:shadow-lg rounded-2xl overflow-hidden bg-card border border-border"
+                className={`flex flex-col md:flex-row items-stretch gap-0 ${
+                  index % 2 === 1 ? "md:flex-row-reverse" : ""
+                }`}
               >
-                {/* Gradient swatch */}
-                <div
-                  className="h-[200px] w-full"
-                  style={{ background: product.gradient }}
-                />
-                <div className="p-4">
-                  {product.badge && (
-                    <span
-                      className={`inline-block text-xs font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full mb-2 ${
-                        product.badge === "bestseller"
-                          ? "bg-primary text-primary-foreground"
-                          : product.badge === "nouveau"
-                            ? "bg-accent text-accent-foreground"
-                            : "bg-destructive/10 text-destructive"
-                      }`}
-                    >
-                      {product.badge}
-                    </span>
+                {/* Photo */}
+                <div className="md:w-1/2">
+                  {product.image ? (
+                    <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="aspect-[3/4] rounded-2xl"
+                      style={{ background: product.gradient }}
+                    />
                   )}
-                  <h3 className="font-heading font-semibold text-base text-foreground mb-1 leading-snug">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-3">
-                    <StarRating rating={product.rating} />
-                    <span className="text-xs text-muted-foreground">
-                      ({product.reviewCount})
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-lg font-bold text-primary">
-                        {product.price} €
+                </div>
+
+                {/* Info card */}
+                <div
+                  className={`md:w-1/2 relative z-10 flex items-center ${
+                    index % 2 === 1 ? "md:-mr-8" : "md:-ml-8"
+                  }`}
+                >
+                  <div
+                    className="w-full rounded-2xl p-8 sm:p-10 shadow-xl"
+                    style={{ background: product.gradient }}
+                  >
+                    {product.badge && (
+                      <span
+                        className={`inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${
+                          product.badge === "bestseller"
+                            ? "bg-primary text-primary-foreground"
+                            : product.badge === "nouveau"
+                              ? "bg-accent text-accent-foreground"
+                              : "bg-destructive/10 text-destructive"
+                        }`}
+                      >
+                        {product.badge}
                       </span>
+                    )}
+
+                    <h3 className="font-heading text-2xl font-bold text-primary mb-3 leading-snug">
+                      {product.name}
+                    </h3>
+
+                    <div className="flex items-center gap-2 mb-4">
+                      <StarRating rating={product.rating} />
+                      <span className="text-sm text-primary/60">({product.reviewCount} avis)</span>
+                    </div>
+
+                    <div className="flex items-baseline gap-3 mb-5">
+                      <span className="text-2xl font-bold text-primary">{product.price} €</span>
                       {product.originalPrice && (
-                        <span className="text-sm text-muted-foreground line-through">
+                        <span className="text-base text-primary/50 line-through">
                           {product.originalPrice} €
                         </span>
                       )}
                     </div>
-                    <span className="text-xs font-medium text-accent-foreground bg-secondary px-3 py-1 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200">
-                      Voir
-                    </span>
+
+                    <p className="text-primary/70 leading-relaxed mb-8">{product.description}</p>
+
+                    <Button
+                      render={<Link href={`/produit/${product.slug}`} />}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 text-sm font-medium tracking-wide"
+                    >
+                      Voir le produit
+                    </Button>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
-          <div className="text-center mt-10">
+
+          <div className="text-center mt-14">
             <Button
               render={<Link href="/boutique" />}
               variant="outline"
