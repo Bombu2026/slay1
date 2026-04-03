@@ -21,44 +21,51 @@ function StarRating({ rating }: { rating: number }) {
 export default function Home() {
   return (
     <>
-      {/* Hero — image plein écran avec overlay et texte en bas */}
-      <section className="relative min-h-[85vh] flex items-end animate-fade-in">
+      {/* Hero — image nette avec overlay sombre en bas + marque prominente */}
+      <section className="relative min-h-[100vh] flex items-end animate-fade-in">
         <Image
           src="/images/hero.png"
           alt="Slay by Elnacia — groupe de femmes"
           fill
-          className="object-cover"
+          className="object-cover object-top"
           priority
           sizes="100vw"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F5E6D3] via-[#F5E6D3]/60 to-transparent" />
+        {/* Gradient overlay — sombre en bas uniquement, image nette en haut */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a0e08]/90 via-[#1a0e08]/30 to-transparent" />
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
-          <p className="animate-slide-up animate-delay-100 text-sm uppercase tracking-[0.25em] text-primary/70 font-medium mb-6">
-            Slay by Elnacia
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20">
+          {/* Brand name — large et visible */}
+          <div className="animate-slide-up animate-delay-100 mb-4">
+            <h1 className="font-heading text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold text-[#FAF9F6] leading-[0.9] tracking-tight">
+              SLAY
+            </h1>
+            <p className="text-sm sm:text-base uppercase tracking-[0.35em] text-[#C8A27C] font-medium mt-2">
+              by Elnacia
+            </p>
+          </div>
+
+          {/* Slogan */}
+          <p className="animate-slide-up animate-delay-200 font-heading text-2xl sm:text-3xl lg:text-4xl text-[#FAF9F6]/90 font-light italic mb-3 leading-snug">
+            Change autant que tu veux
           </p>
-          <h1 className="animate-slide-up animate-delay-200 font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-primary leading-tight mb-6">
-            Change autant
-            <br />
-            que tu veux
-          </h1>
-          <p className="animate-slide-up animate-delay-300 text-lg sm:text-xl text-primary/80 max-w-xl mb-10 leading-relaxed">
-            Perruques premium. Style instantané. Confiance absolue.
+          <p className="animate-slide-up animate-delay-300 text-sm sm:text-base text-[#FAF9F6]/60 max-w-md mb-8 leading-relaxed">
+            Perruques premium. Style instantane. Confiance absolue.
           </p>
+
           <div className="animate-slide-up animate-delay-400">
             <Button
               render={<Link href="/boutique" />}
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-10 py-6 text-base font-medium tracking-wide shadow-lg"
+              className="bg-[#C8A27C] text-[#1a0e08] hover:bg-[#d4b08e] rounded-full px-10 py-6 text-base font-semibold tracking-wide shadow-lg"
             >
-              Découvrir la collection
+              Decouvrir la collection
             </Button>
 
             {/* Trust badges */}
             <div className="flex flex-wrap items-center gap-5 mt-6">
-              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+              <span className="text-xs text-[#FAF9F6]/40 flex items-center gap-1.5">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="1" y="3" width="15" height="13" rx="2" />
                   <path d="M16 8h4l3 5v3h-7V8z" />
@@ -67,14 +74,14 @@ export default function Home() {
                 </svg>
                 Livraison 2-5 jours
               </span>
-              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+              <span className="text-xs text-[#FAF9F6]/40 flex items-center gap-1.5">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
-                Paiement sécurisé
+                Paiement securise
               </span>
-              <span className="text-xs text-primary/60 flex items-center gap-1.5">
+              <span className="text-xs text-[#FAF9F6]/40 flex items-center gap-1.5">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <polyline points="1 4 1 10 7 10" />
                   <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
