@@ -78,7 +78,7 @@ function BoutiqueContent() {
       </div>
 
       {/* Category Navigation Bar */}
-      <div className="sticky top-20 z-40 bg-background/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-border mb-8">
+      <div className="sticky top-[72px] z-40 bg-background/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-border mb-8">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           <button
             type="button"
