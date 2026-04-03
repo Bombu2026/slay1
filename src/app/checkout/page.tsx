@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
 import { Button } from "@/components/ui/button";
@@ -181,10 +182,15 @@ export default function CheckoutPage() {
             <div className="space-y-4 mb-5">
               {items.map((item) => (
                 <div key={item.product.id} className="flex items-center gap-3">
-                  <div
-                    className="w-12 h-12 rounded-lg flex-shrink-0"
-                    style={{ background: item.product.gradient }}
-                  />
+                  <div className="relative w-12 h-12 rounded-lg flex-shrink-0 overflow-hidden">
+                    <Image
+                      src={item.product.image}
+                      alt={item.product.name}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground leading-snug truncate">
                       {item.product.name}

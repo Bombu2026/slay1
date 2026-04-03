@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/cart-provider";
 import { Button } from "@/components/ui/button";
@@ -64,12 +65,16 @@ export default function PanierPage() {
             return (
               <div key={product.id}>
                 <div className="flex items-start gap-5 py-6">
-                  {/* Gradient thumbnail */}
-                  <div
-                    className="w-20 h-20 rounded-lg flex-shrink-0"
-                    style={{ background: product.gradient }}
-                    aria-hidden="true"
-                  />
+                  {/* Product thumbnail */}
+                  <div className="relative w-20 h-20 rounded-lg flex-shrink-0 overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </div>
 
                   {/* Product info */}
                   <div className="flex flex-1 flex-col gap-2 min-w-0">

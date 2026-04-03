@@ -2,22 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { products, textures, lengths, types } from "@/lib/data";
-import { Badge } from "@/components/ui/badge";
-
-type TextureFilter = (typeof textures)[number] | "Toutes";
-type LengthFilter = (typeof lengths)[number] | "Toutes";
-type TypeFilter = (typeof types)[number] | "Tous";
-
-const TEXTURE_OPTIONS: TextureFilter[] = ["Toutes", ...textures];
-const LENGTH_OPTIONS: LengthFilter[] = ["Toutes", ...lengths];
-const TYPE_OPTIONS: TypeFilter[] = ["Tous", ...types];
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { products, categories } from "@/lib/data";
 
 const BADGE_LABELS: Record<string, string> = {
   bestseller: "Best-seller",
   nouveau: "Nouveau",
   promo: "Promo",
+  "sans-colle": "Sans colle",
+  "hd-lace": "HD Lace",
+};
+
+const BADGE_CLASSES: Record<string, string> = {
+  bestseller: "bg-primary text-primary-foreground",
+  nouveau: "bg-accent text-accent-foreground",
+  promo: "bg-red-600 text-white",
+  "sans-colle": "bg-emerald-600 text-white",
+  "hd-lace": "bg-violet-600 text-white",
 };
 
 function StarRating({ rating }: { rating: number }) {
@@ -38,187 +40,132 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function FilterButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
+const activeCategories = categories.filter((c) => !c.comingSoon);
+const comingSoonCategories = categories.filter((c) => c.comingSoon);
+
+export default function BoutiquePage() {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-        active
-          ? "bg-primary text-primary-foreground"
-          : "bg-secondary text-secondary-foreground hover:bg-secondary/70"
-      }`}
-    >
-      {children}
-    </button>
+    <Suspense>
+      <BoutiqueContent />
+    </Suspense>
   );
 }
 
-export default function BoutiquePage() {
-  const [texture, setTexture] = useState<TextureFilter>("Toutes");
-  const [length, setLength] = useState<LengthFilter>("Toutes");
-  const [type, setType] = useState<TypeFilter>("Tous");
+function BoutiqueContent() {
+  const searchParams = useSearchParams();
+  const [activeCategory, setActiveCategory] = useState<string>("tout");
 
-  const filtered = products.filter((p) => {
-    if (texture !== "Toutes" && p.texture !== texture) return false;
-    if (length !== "Toutes" && p.length !== length) return false;
-    if (type !== "Tous" && p.type !== type) return false;
-    return true;
-  });
+  useEffect(() => {
+    const cat = searchParams.get("categorie");
+    if (cat) setActiveCategory(cat);
+  }, [searchParams]);
+
+  const filtered =
+    activeCategory === "tout"
+      ? products
+      : products.filter((p) => p.categoryId === activeCategory);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="mb-10 text-center">
+      <div className="mb-8 text-center">
         <h1 className="font-heading text-4xl text-gradient mb-2">
-          La Collection
+          La Boutique
         </h1>
-        <p className="text-muted-foreground text-lg mb-1">
+        <p className="text-muted-foreground text-lg">
           Trouve la perruque parfaite pour toi
         </p>
-        <p className="text-sm text-muted-foreground">
-          {filtered.length} perruque{filtered.length > 1 ? "s" : ""}
-        </p>
       </div>
 
-      {/* Filters */}
-      <div className="sticky top-16 z-40 bg-background/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-border mb-8 space-y-4">
-        {/* Texture */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
-            Texture
-          </span>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {TEXTURE_OPTIONS.map((opt) => (
-              <FilterButton
-                key={opt}
-                active={texture === opt}
-                onClick={() => setTexture(opt)}
-              >
-                {opt}
-              </FilterButton>
-            ))}
-          </div>
-        </div>
-
-        {/* Length */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
-            Longueur
-          </span>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {LENGTH_OPTIONS.map((opt) => (
-              <FilterButton
-                key={opt}
-                active={length === opt}
-                onClick={() => setLength(opt)}
-              >
-                {opt}
-              </FilterButton>
-            ))}
-          </div>
-        </div>
-
-        {/* Type */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium shrink-0 w-16">
-            Type
-          </span>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-            {TYPE_OPTIONS.map((opt) => (
-              <FilterButton
-                key={opt}
-                active={type === opt}
-                onClick={() => setType(opt)}
-              >
-                {opt}
-              </FilterButton>
-            ))}
-          </div>
+      {/* Category Navigation Bar */}
+      <div className="sticky top-16 z-40 bg-background/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-border mb-8">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <button
+            type="button"
+            onClick={() => setActiveCategory("tout")}
+            className={`rounded-full px-5 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+              activeCategory === "tout"
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/70"
+            }`}
+          >
+            Tout
+          </button>
+          {activeCategories.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setActiveCategory(cat.id)}
+              className={`rounded-full px-5 py-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+                activeCategory === cat.id
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/70"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Product count */}
+      <p className="text-sm text-muted-foreground mb-6">
+        {filtered.length} perruque{filtered.length > 1 ? "s" : ""}
+      </p>
+
+      {/* Product Grid */}
       {filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <p className="font-heading text-2xl text-muted-foreground">
-            Aucun produit trouvé
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Essaie d&apos;autres filtres pour explorer la collection.
+            Aucun produit dans cette catégorie
           </p>
           <button
             type="button"
-            onClick={() => {
-              setTexture("Toutes");
-              setLength("Toutes");
-              setType("Tous");
-            }}
+            onClick={() => setActiveCategory("tout")}
             className="mt-2 text-sm font-medium text-primary underline underline-offset-4"
           >
-            Réinitialiser les filtres
+            Voir toute la collection
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {filtered.map((product) => (
             <Link
               key={product.id}
               href={`/produit/${product.slug}`}
               className="group block hover:-translate-y-1 hover:shadow-lg transition-all duration-300 rounded-xl"
             >
-              {/* Image placeholder with gradient */}
-              <div className="relative overflow-hidden rounded-t-xl">
-                {product.image ? (
-                  <div className="aspect-[3/4] w-full relative overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                  </div>
-                ) : (
-                  <div className="relative aspect-[3/4] rounded-t-xl overflow-hidden">
-                    <div
-                      className="w-full h-full transition-transform duration-300 group-hover:scale-105"
-                      style={{ background: product.gradient }}
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                  </div>
-                )}
+              {/* Image */}
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
+
                 {/* Badge */}
                 {product.badge && (
                   <div className="absolute top-3 left-3">
-                    <Badge
-                      className={
-                        product.badge === "bestseller"
-                          ? "bg-primary text-primary-foreground"
-                          : product.badge === "nouveau"
-                            ? "bg-accent text-accent-foreground"
-                            : "bg-destructive text-white"
-                      }
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${BADGE_CLASSES[product.badge]}`}
                     >
                       {BADGE_LABELS[product.badge]}
-                    </Badge>
+                    </span>
                   </div>
                 )}
               </div>
 
               {/* Info */}
               <div className="mt-3 px-1 space-y-1.5">
-                <p className="font-medium text-foreground leading-snug group-hover:text-primary transition-colors">
+                <p className="font-medium text-sm text-foreground leading-snug group-hover:text-primary transition-colors">
                   {product.name}
+                </p>
+
+                <p className="text-xs text-muted-foreground">
+                  {product.texture} · {product.type}
                 </p>
 
                 <div className="flex items-baseline gap-2">
@@ -233,13 +180,38 @@ export default function BoutiquePage() {
                 </div>
 
                 <StarRating rating={product.rating} />
-
-                <p className="text-xs text-muted-foreground">
-                  {product.texture} · {product.length}
-                </p>
               </div>
             </Link>
           ))}
+        </div>
+      )}
+
+      {/* Coming Soon Section */}
+      {comingSoonCategories.length > 0 && (
+        <div className="mt-20">
+          <h2 className="font-heading text-2xl mb-6 text-center">
+            Bientôt disponible
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {comingSoonCategories.map((cat) => (
+              <div
+                key={cat.id}
+                className="relative rounded-xl overflow-hidden opacity-70 cursor-not-allowed"
+              >
+                <div className="aspect-[4/3] w-full bg-gradient-to-br from-secondary to-secondary/40 flex flex-col items-center justify-center gap-3 p-6">
+                  <p className="font-heading text-xl text-center text-foreground">
+                    {cat.name}
+                  </p>
+                  <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-primary/20 text-primary">
+                    Coming soon
+                  </span>
+                  <p className="text-xs text-muted-foreground text-center">
+                    {cat.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products, reviews } from "@/lib/data";
+import { products, reviews, categories } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 
 const bestSellers = products
@@ -9,6 +9,9 @@ const bestSellers = products
   .slice(0, 4);
 
 const featuredReviews = reviews.slice(0, 3);
+
+const activeCategories = categories.filter((c) => !c.comingSoon && c.image);
+const comingSoonCategories = categories.filter((c) => c.comingSoon);
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -93,8 +96,70 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Best Sellers — layout éditorial */}
+      {/* Shop par catégorie */}
       <section className="py-16 sm:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium mb-3">
+              Collections
+            </p>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-primary">
+              Shop par catégorie
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* Active categories — linkable */}
+            {activeCategories.map((category) => (
+              <Link
+                key={category.id}
+                href={`/boutique?categorie=${category.slug}`}
+                className="group relative aspect-[3/4] rounded-xl overflow-hidden block"
+              >
+                <Image
+                  src={category.image as string}
+                  alt={category.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="font-heading text-white font-semibold text-sm sm:text-base leading-tight">
+                    {category.name}
+                  </p>
+                </div>
+              </Link>
+            ))}
+
+            {/* Coming soon categories — dimmed */}
+            {comingSoonCategories.map((category) => (
+              <div
+                key={category.id}
+                className="relative aspect-[3/4] rounded-xl overflow-hidden opacity-60 pointer-events-none"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C8A27C]/30 to-[#967259]/30" />
+                <div className="absolute inset-0 bg-secondary" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                {/* Coming soon badge */}
+                <div className="absolute top-3 left-3">
+                  <span className="text-xs font-semibold uppercase tracking-wider bg-foreground/10 text-foreground backdrop-blur-sm border border-foreground/20 px-2.5 py-1 rounded-full">
+                    Bientôt disponible
+                  </span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="font-heading text-white font-semibold text-sm sm:text-base leading-tight">
+                    {category.name}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Best Sellers — layout éditorial */}
+      <section className="py-16 sm:py-24 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium mb-3">
@@ -115,22 +180,15 @@ export default function Home() {
               >
                 {/* Photo */}
                 <div className="md:w-1/2">
-                  {product.image ? (
-                    <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="aspect-[3/4] rounded-2xl"
-                      style={{ background: product.gradient }}
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                  )}
+                  </div>
                 </div>
 
                 {/* Info card */}
@@ -202,7 +260,7 @@ export default function Home() {
       </section>
 
       {/* Brand Values */}
-      <section className="py-16 sm:py-24 bg-secondary">
+      <section className="py-16 sm:py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-primary">
@@ -243,7 +301,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 sm:py-24 bg-background">
+      <section className="py-16 sm:py-24 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium mb-3">

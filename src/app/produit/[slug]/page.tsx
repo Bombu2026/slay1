@@ -75,24 +75,17 @@ export default async function ProductPage({
 
       {/* Product Section */}
       <div className="flex flex-col lg:flex-row gap-12 mb-20">
-        {/* LEFT — gradient visual */}
+        {/* LEFT — product image */}
         <div className="lg:w-1/2">
           <div className="group relative aspect-square rounded-2xl overflow-hidden shadow-lg">
-            {product.image ? (
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
-            ) : (
-              <div
-                className="w-full h-full transition-transform duration-500 group-hover:scale-105"
-                style={{ background: product.gradient }}
-              />
-            )}
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+            />
             {product.badge && (
               <span
                 className={`absolute top-5 left-5 text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full ${badgeStyles[product.badge]}`}
@@ -256,20 +249,13 @@ export default async function ProductPage({
                 className="group block rounded-2xl overflow-hidden bg-card border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative h-[180px] w-full">
-                  {related.image ? (
-                    <Image
-                      src={related.image}
-                      alt={related.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  ) : (
-                    <div
-                      className="w-full h-full"
-                      style={{ background: related.gradient }}
-                    />
-                  )}
+                  <Image
+                    src={related.image}
+                    alt={related.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-heading font-semibold text-base text-foreground mb-2 leading-snug">
